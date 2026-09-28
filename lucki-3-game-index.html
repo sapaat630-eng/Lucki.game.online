@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LUCKI GAME ONLINE</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#070b1d;color:#fff;font-family:Arial,sans-serif}
+.wrap{max-width:720px;margin:auto;padding:22px 16px 40px}
+h1{color:#ffd34d;text-align:center;font-size:34px;margin:12px 0 6px}
+.sub{text-align:center;color:#b9c1dc;font-size:17px;margin-bottom:22px}
+.card{background:#121832;border:1px solid #303a62;border-radius:26px;padding:22px;margin-top:18px}
+.tabs{display:flex;background:#080d25;border-radius:20px;padding:6px}.tabs button{flex:1;border:0;background:transparent;color:#aab3d3;padding:15px;border-radius:15px;font-size:20px;font-weight:bold}.tabs .on{background:#ffd34d;color:#151515}
+input{width:100%;padding:16px;margin:7px 0 14px;border-radius:15px;border:1px solid #394568;background:#080f27;color:#fff;font-size:17px}
+button{cursor:pointer}.mainbtn{width:100%;padding:17px;border:0;border-radius:17px;background:linear-gradient(90deg,#ffd34d,#ffad20);font-size:19px;font-weight:bold;color:#171717}
+.msg{margin-top:15px;padding:14px;border-radius:14px;background:#083a2e;color:#79f0c5}
+.hidden{display:none}.balance{float:right;background:#1a2242;padding:10px 15px;border-radius:20px;color:#ffd34d;font-weight:bold}
+.games{display:grid;grid-template-columns:1fr;gap:15px;margin-top:18px}
+.game{background:#19213f;border-radius:20px;padding:18px}.game h2{margin:0 0 7px}.game p{color:#b9c1dc}.play{width:100%;padding:14px;border:0;border-radius:14px;background:#ffd34d;font-weight:bold;font-size:17px}
+.back{margin-top:12px;background:#2a3457;color:#fff}
+.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:15px 0}.reel{background:#fff;color:#111;border-radius:10px;min-height:62px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.choice{display:flex;gap:8px}.choice button{flex:1;padding:13px;border:0;border-radius:12px;background:#2a3457;color:#fff;font-weight:bold}.choice .sel{background:#ffd34d;color:#111}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🎰 LUCKI GAME ONLINE</h1><div class="sub">Game virtual • koin permainan • tanpa uang nyata</div>
+
+<section id="auth" class="card">
+<div class="tabs"><button id="tabLogin" class="on" onclick="showAuth('login')">Login</button><button id="tabReg" onclick="showAuth('reg')">Daftar</button></div>
+<div id="loginBox"><h2>Selamat Datang 👑</h2><input id="liUser" placeholder="Username"><input id="liPass" type="password" placeholder="Password"><button class="mainbtn" onclick="login()">🚪 Login</button></div>
+<div id="regBox" class="hidden"><h2>Daftar Akun 🎁</h2><input id="reUser" placeholder="Username"><input id="reEmail" placeholder="Email"><input id="rePass" type="password" placeholder="Password"><input id="rePass2" type="password" placeholder="Konfirmasi Password"><button class="mainbtn" onclick="register()">👤 Daftar Sekarang</button></div>
+<div id="authMsg"></div>
+</section>
+
+<section id="home" class="card hidden">
+<div><b>Halo, <span id="who"></span> 👋</b><span class="balance">🪙 <span id="bal">10000</span></span></div>
+<h2>🎮 Pilih Game</h2>
+<div class="games">
+<div class="game"><h2>🎰 Lucky Reels</h2><p>Slot virtual 5×3 untuk hiburan.</p><button class="play" onclick="openGame('reels')">Mainkan</button></div>
+<div class="game"><h2>🎲 Dice Lucky</h2><p>Tebak angka dadu secara virtual.</p><button class="play" onclick="openGame('dice')">Mainkan</button></div>
+<div class="game"><h2>🃏 Card Lucky</h2><p>Pilih kartu dan lihat hasil acak.</p><button class="play" onclick="openGame('card')">Mainkan</button></div>
+</div>
+<button class="mainbtn back" onclick="logout()">Keluar</button>
+</section>
+
+<section id="reels" class="card hidden"><h2>🎰 Lucky Reels</h2><div class="reels" id="grid"></div><button class="mainbtn" onclick="spin()">🎰 SPIN • 100</button><button class="mainbtn back" onclick="home()">Kembali</button><div id="reelMsg"></div></section>
+
+<section id="dice" class="card hidden"><h2>🎲 Dice Lucky</h2><p>Pilih angka 1–6, lalu lempar dadu.</p><div class="choice" id="diceChoices"></div><h2 id="diceResult">🎲 ?</h2><button class="mainbtn" onclick="roll()">Lempar • 100</button><button class="mainbtn back" onclick="home()">Kembali</button></section>
+
+<section id="card" class="card hidden"><h2>🃏 Card Lucky</h2><p>Pilih satu kartu.</p><div class="choice"><button onclick="pickCard('A')">🂡 A</button><button onclick="pickCard('K')">🂮 K</button><button onclick="pickCard('Q')">🂭 Q</button></div><h2 id="cardResult">Pilih kartu</h2><button class="mainbtn back" onclick="home()">Kembali</button></section>
+</div>
+<script>
+const KEY='lucki3';let st=JSON.parse(localStorage.getItem(KEY)||'null'),game=null,dicePick=1;
+function save(){localStorage.setItem(KEY,JSON.stringify(st))}
+function msg(t){document.getElementById('authMsg').innerHTML='<div class="msg">'+t+'</div>'}
+function showAuth(x){loginBox.classList.toggle('hidden',x!='login');regBox.classList.toggle('hidden',x!='reg');tabLogin.classList.toggle('on',x=='login');tabReg.classList.toggle('on',x=='reg');document.getElementById('authMsg').innerHTML=''}
+function register(){let u=reUser.value.trim(),p=rePass.value;if(!u||p.length<6||p!==rePass2.value)return msg('Periksa username dan password (minimal 6 karakter).');st={u,p,b:10000};save();msg('Pendaftaran berhasil. Silakan login.');showAuth('login')}
+function login(){if(!st||liUser.value.trim()!=st.u||liPass.value!=st.p)return msg('Username atau password salah.');home()}
+function home(){['auth','home','reels','dice','card'].forEach(x=>document.getElementById(x).classList.add('hidden'));homeEl=document.getElementById('home');homeEl.classList.remove('hidden');who.textContent=st.u;bal.textContent=st.b}
+function openGame(x){['home','reels','dice','card'].forEach(y=>document.getElementById(y).classList.add('hidden'));document.getElementById(x).classList.remove('hidden');game=x}
+function logout(){st=null;localStorage.removeItem(KEY);location.reload()}
+function spend(){if(st.b<100)return false;st.b-=100;save();return true}
+const S=['🍒','🍋','🔔','💎','7️⃣'];function spin(){if(!spend()){reelMsg.innerHTML='<div class="msg">Koin tidak cukup.</div>';return}let a=Array.from({length:15},()=>S[Math.floor(Math.random()*S.length)]);grid.innerHTML=a.map(x=>'<div class="reel">'+x+'</div>').join('');let win=a[0]===a[1]&&a[1]===a[2]?500:0;if(win){st.b+=win;save()}bal.textContent=st.b;reelMsg.innerHTML='<div class="msg">Spin selesai. Koin virtual saja.</div>'}
+for(let i=1;i<=6;i++){let b=document.createElement('button');b.textContent=i;b.onclick=()=>{dicePick=i;[...diceChoices.children].forEach(x=>x.classList.remove('sel'));b.classList.add('sel')};diceChoices.appendChild(b)}function roll(){if(!spend())return;let n=1+Math.floor(Math.random()*6);diceResult.textContent='🎲 '+n+(n==dicePick?' — Menang +500!':' — Coba lagi');if(n==dicePick)st.b+=500;save();bal.textContent=st.b}
+function pickCard(c){if(!spend()){cardResult.textContent='Koin tidak cukup.';return}let r=['A','K','Q'][Math.floor(Math.random()*3)];if(c==r){st.b+=500;cardResult.textContent='🎉 Cocok! +500 koin';}else cardResult.textContent='Kartu keluar: '+r;save();bal.textContent=st.b}
+if(st)home()
+</script>
+</body></html>
