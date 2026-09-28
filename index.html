@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lucki Game Online</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#090b16;color:#fff}
+.wrap{max-width:900px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-size:25px;font-weight:800}.coins{background:#171b2d;padding:10px 14px;border-radius:20px;color:#ffd85a}
+.card{margin-top:18px;background:linear-gradient(145deg,#171b31,#0f1222);border:1px solid #2a3150;border-radius:24px;padding:20px;box-shadow:0 18px 50px #0006}
+h1{margin:0 0 5px;font-size:30px}.muted{color:#aab1ca}
+.machine{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0}
+.cell{aspect-ratio:1;background:#fff;color:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:inset 0 -5px 0 #ddd}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{border:0;border-radius:14px;padding:13px 20px;font-weight:800;font-size:16px;cursor:pointer}
+.spin{background:#ffd34d;color:#151515;min-width:150px}.spin:disabled{opacity:.5;cursor:not-allowed}
+.small{background:#242a44;color:#fff}.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.stat{flex:1;min-width:130px;background:#11152a;padding:12px;border-radius:14px}
+.msg{margin-top:15px;min-height:25px;color:#ffd85a}.pay{margin-top:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.pay div{background:#11152a;padding:10px;border-radius:10px;color:#cbd0e4}
+@media(max-width:600px){.cell{font-size:29px}.machine{gap:5px}.card{padding:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="logo">🎰 Lucki Game Online</div><div class="coins">🪙 <span id="coins">10000</span></div></div>
+  <div class="card">
+    <h1>Lucky Reels</h1><div class="muted">Mesin slot virtual — hanya koin permainan, tanpa uang nyata.</div>
+    <div class="machine" id="machine"></div>
+    <div class="controls">
+      <button class="spin" id="spin">SPIN • 100</button>
+      <button class="small" id="bonus">🎁 Bonus Harian</button>
+      <button class="small" id="reset">↻ Reset</button>
+    </div>
+    <div class="msg" id="msg">Selamat bermain!</div>
+    <div class="stats">
+      <div class="stat">Level<br><b id="level">1</b></div>
+      <div class="stat">XP<br><b id="xp">0</b></div>
+      <div class="stat">Spin<br><b id="spins">0</b></div>
+      <div class="stat">Menang<br><b id="wins">0</b></div>
+    </div>
+    <div class="pay">
+      <div>🍒 🍒 🍒 = 250</div><div>🍋 🍋 🍋 = 350</div>
+      <div>🔔 🔔 🔔 = 500</div><div>💎 💎 💎 = 1000</div>
+      <div>7️⃣ 7️⃣ 7️⃣ = 2500</div><div>⭐ ⭐ ⭐ = 1500</div>
+    </div>
+  </div>
+</div>
+<script>
+const symbols=["🍒","🍋","🔔","💎","7️⃣","⭐","🍀","🍊"];
+const weights=[25,22,15,10,5,8,7,8];
+const prizes={"🍒":250,"🍋":350,"🔔":500,"💎":1000,"7️⃣":2500,"⭐":1500,"🍀":700,"🍊":400};
+let s=JSON.parse(localStorage.getItem("lucki")||'{"coins":10000,"xp":0,"spins":0,"wins":0,"bonus":""}');
+function save(){localStorage.setItem("lucki",JSON.stringify(s));render()}
+function pick(){let n=Math.random()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<symbols.length;i++){n-=weights[i];if(n<=0)return symbols[i]}return symbols[0]}
+function render(){
+ document.getElementById("coins").textContent=s.coins.toLocaleString("id-ID");
+ document.getElementById("xp").textContent=s.xp;
+ document.getElementById("spins").textContent=s.spins;
+ document.getElementById("wins").textContent=s.wins;
+ document.getElementById("level").textContent=Math.floor(s.xp/100)+1;
+}
+function grid(vals){document.getElementById("machine").innerHTML=vals.map(x=>`<div class="cell">${x}</div>`).join("")}
+grid(Array(15).fill("❔"));render();
+document.getElementById("spin").onclick=()=>{
+ if(s.coins<100){document.getElementById("msg").textContent="Koin tidak cukup.";return}
+ s.coins-=100;s.spins++;s.xp+=10;
+ const v=Array.from({length:15},pick);grid(v);
+ let win=0;
+ for(let r=0;r<3;r++){
+   let row=v.slice(r*5,r*5+5);
+   for(let c of symbols){if(row.filter(x=>x===c).length>=3)win=Math.max(win,(prizes[c]||0))}
+ }
+ if(win){s.coins+=win;s.wins++;document.getElementById("msg").textContent=`🎉 Menang ${win.toLocaleString("id-ID")} koin!`}
+ else document.getElementById("msg").textContent="Belum menang. Coba lagi!";
+ save();
+};
+document.getElementById("bonus").onclick=()=>{
+ const d=new Date().toISOString().slice(0,10);
+ if(s.bonus===d){document.getElementById("msg").textContent="Bonus hari ini sudah diambil.";return}
+ s.bonus=d;s.coins+=1000;document.getElementById("msg").textContent="🎁 Bonus harian +1.000 koin!";save();
+};
+document.getElementById("reset").onclick=()=>{if(confirm("Reset permainan?")){s={coins:10000,xp:0,spins:0,wins:0,bonus:""};grid(Array(15).fill("❔"));save()}};
+</script>
+</body>
+</html>
