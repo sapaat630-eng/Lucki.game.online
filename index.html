@@ -1,86 +1,15 @@
-<!doctype html>
-<html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lucki Game Online</title>
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lucki Game Online</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#090b16;color:#fff}
-.wrap{max-width:900px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.logo{font-size:25px;font-weight:800}.coins{background:#171b2d;padding:10px 14px;border-radius:20px;color:#ffd85a}
-.card{margin-top:18px;background:linear-gradient(145deg,#171b31,#0f1222);border:1px solid #2a3150;border-radius:24px;padding:20px;box-shadow:0 18px 50px #0006}
-h1{margin:0 0 5px;font-size:30px}.muted{color:#aab1ca}
-.machine{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0}
-.cell{aspect-ratio:1;background:#fff;color:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:inset 0 -5px 0 #ddd}
-.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-button{border:0;border-radius:14px;padding:13px 20px;font-weight:800;font-size:16px;cursor:pointer}
-.spin{background:#ffd34d;color:#151515;min-width:150px}.spin:disabled{opacity:.5;cursor:not-allowed}
-.small{background:#242a44;color:#fff}.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.stat{flex:1;min-width:130px;background:#11152a;padding:12px;border-radius:14px}
-.msg{margin-top:15px;min-height:25px;color:#ffd85a}.pay{margin-top:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.pay div{background:#11152a;padding:10px;border-radius:10px;color:#cbd0e4}
-@media(max-width:600px){.cell{font-size:29px}.machine{gap:5px}.card{padding:15px}}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="top"><div class="logo">🎰 Lucki Game Online</div><div class="coins">🪙 <span id="coins">10000</span></div></div>
-  <div class="card">
-    <h1>Lucky Reels</h1><div class="muted">Mesin slot virtual — hanya koin permainan, tanpa uang nyata.</div>
-    <div class="machine" id="machine"></div>
-    <div class="controls">
-      <button class="spin" id="spin">SPIN • 100</button>
-      <button class="small" id="bonus">🎁 Bonus Harian</button>
-      <button class="small" id="reset">↻ Reset</button>
-    </div>
-    <div class="msg" id="msg">Selamat bermain!</div>
-    <div class="stats">
-      <div class="stat">Level<br><b id="level">1</b></div>
-      <div class="stat">XP<br><b id="xp">0</b></div>
-      <div class="stat">Spin<br><b id="spins">0</b></div>
-      <div class="stat">Menang<br><b id="wins">0</b></div>
-    </div>
-    <div class="pay">
-      <div>🍒 🍒 🍒 = 250</div><div>🍋 🍋 🍋 = 350</div>
-      <div>🔔 🔔 🔔 = 500</div><div>💎 💎 💎 = 1000</div>
-      <div>7️⃣ 7️⃣ 7️⃣ = 2500</div><div>⭐ ⭐ ⭐ = 1500</div>
-    </div>
-  </div>
-</div>
+*{box-sizing:border-box}body{margin:0;background:#070a18;color:#fff;font-family:Arial,sans-serif}.wrap{max-width:480px;margin:auto;padding:18px}.logo{text-align:center;font-size:29px;font-weight:900;color:#ffd34e;margin:18px 0 7px;text-shadow:0 2px 12px #ff9d00}.sub{text-align:center;color:#aeb6d2;margin-bottom:22px}.card{background:linear-gradient(160deg,#151b35,#0d1228);border:1px solid #344063;border-radius:24px;padding:22px;box-shadow:0 16px 50px #0008}.tabs{display:flex;background:#090e20;border-radius:14px;padding:4px}.tab{width:50%;padding:13px;border:0;border-radius:11px;background:none;color:#9da7c5;font-weight:700;font-size:16px}.active{background:#ffd34e!important;color:#151515!important}h1{font-size:27px}.hint{color:#aeb6d2;line-height:1.45}.field{margin:13px 0}.field label{display:block;font-size:13px;color:#cbd2e7;margin-bottom:7px}input{width:100%;padding:15px;border-radius:13px;border:1px solid #344567;background:#0b1329;color:#fff;font-size:16px}button{cursor:pointer}.btn{width:100%;border:0;border-radius:14px;padding:15px;font-size:17px;font-weight:800;margin-top:12px}.primary{background:linear-gradient(90deg,#ffd34e,#ffad22);color:#171717}.secondary{background:#202944;color:#fff}.note{text-align:center;color:#9fa8c3;font-size:13px;margin-top:16px}.msg{display:none;padding:12px;border-radius:12px;background:#102c25;color:#7ff0c4;margin-top:14px}.game{display:none}.top{display:flex;justify-content:space-between;align-items:center}.coins{background:#1a2038;padding:10px 15px;border-radius:20px;color:#ffd34e;font-weight:800}.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0}.reel{background:#fff;color:#333;border-radius:12px;height:70px;display:flex;align-items:center;justify-content:center;font-size:28px}.actions{display:flex;gap:10px}.actions button{flex:1}.logout{background:#2a314b;color:#fff}.small{font-size:12px;color:#8791ae}
+</style></head><body><div class="wrap"><div class="logo">🎰 LUCKI GAME ONLINE</div><div class="sub">Game virtual • koin permainan • tanpa uang nyata</div>
+<section id="auth" class="card"><div class="tabs"><button id="loginTab" class="tab active" onclick="showLogin()">Login</button><button id="registerTab" class="tab" onclick="showRegister()">Daftar</button></div>
+<div id="loginBox"><h1>Selamat Datang 👑</h1><div class="hint">Masuk untuk melanjutkan permainan Anda.</div><div class="field"><label>Username / Email</label><input id="loginUser" placeholder="Masukkan username"></div><div class="field"><label>Password</label><input id="loginPass" type="password" placeholder="Masukkan password"></div><button class="btn primary" onclick="login()">🚪 Login</button><div class="note">Belum punya akun? <b onclick="showRegister()" style="color:#ffd34e">Daftar sekarang</b></div><div id="loginMsg" class="msg"></div></div>
+<div id="registerBox" style="display:none"><h1>Daftar Akun 🎁</h1><div class="hint">Buat akun untuk menyimpan progres game di perangkat ini.</div><div class="field"><label>Username</label><input id="regUser" placeholder="Contoh: pemain123"></div><div class="field"><label>Email</label><input id="regEmail" type="email" placeholder="nama@email.com"></div><div class="field"><label>Password</label><input id="regPass" type="password" placeholder="Minimal 6 karakter"></div><div class="field"><label>Konfirmasi Password</label><input id="regPass2" type="password" placeholder="Ulangi password"></div><button class="btn primary" onclick="register()">👤 Daftar Sekarang</button><div class="note">Sudah punya akun? <b onclick="showLogin()" style="color:#ffd34e">Login di sini</b></div><div id="regMsg" class="msg"></div></div></section>
+<section id="game" class="card game"><div class="top"><div><b id="welcome"></b><div class="small">Akun tersimpan di perangkat ini</div></div><div class="coins">🪙 <span id="coins">10000</span></div></div><h1>Lucky Reels</h1><div class="hint">Slot virtual untuk hiburan. Kemenangan tidak dapat diuangkan.</div><div id="reels" class="reels"></div><div class="actions"><button class="btn primary" onclick="spin()">🎰 SPIN • 100</button><button class="btn secondary" onclick="bonus()">🎁 Bonus</button></div><button class="btn logout" onclick="logout()">Keluar</button><div id="gameMsg" class="msg"></div></section></div>
 <script>
-const symbols=["🍒","🍋","🔔","💎","7️⃣","⭐","🍀","🍊"];
-const weights=[25,22,15,10,5,8,7,8];
-const prizes={"🍒":250,"🍋":350,"🔔":500,"💎":1000,"7️⃣":2500,"⭐":1500,"🍀":700,"🍊":400};
-let s=JSON.parse(localStorage.getItem("lucki")||'{"coins":10000,"xp":0,"spins":0,"wins":0,"bonus":""}');
-function save(){localStorage.setItem("lucki",JSON.stringify(s));render()}
-function pick(){let n=Math.random()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<symbols.length;i++){n-=weights[i];if(n<=0)return symbols[i]}return symbols[0]}
-function render(){
- document.getElementById("coins").textContent=s.coins.toLocaleString("id-ID");
- document.getElementById("xp").textContent=s.xp;
- document.getElementById("spins").textContent=s.spins;
- document.getElementById("wins").textContent=s.wins;
- document.getElementById("level").textContent=Math.floor(s.xp/100)+1;
-}
-function grid(vals){document.getElementById("machine").innerHTML=vals.map(x=>`<div class="cell">${x}</div>`).join("")}
-grid(Array(15).fill("❔"));render();
-document.getElementById("spin").onclick=()=>{
- if(s.coins<100){document.getElementById("msg").textContent="Koin tidak cukup.";return}
- s.coins-=100;s.spins++;s.xp+=10;
- const v=Array.from({length:15},pick);grid(v);
- let win=0;
- for(let r=0;r<3;r++){
-   let row=v.slice(r*5,r*5+5);
-   for(let c of symbols){if(row.filter(x=>x===c).length>=3)win=Math.max(win,(prizes[c]||0))}
- }
- if(win){s.coins+=win;s.wins++;document.getElementById("msg").textContent=`🎉 Menang ${win.toLocaleString("id-ID")} koin!`}
- else document.getElementById("msg").textContent="Belum menang. Coba lagi!";
- save();
-};
-document.getElementById("bonus").onclick=()=>{
- const d=new Date().toISOString().slice(0,10);
- if(s.bonus===d){document.getElementById("msg").textContent="Bonus hari ini sudah diambil.";return}
- s.bonus=d;s.coins+=1000;document.getElementById("msg").textContent="🎁 Bonus harian +1.000 koin!";save();
-};
-document.getElementById("reset").onclick=()=>{if(confirm("Reset permainan?")){s={coins:10000,xp:0,spins:0,wins:0,bonus:""};grid(Array(15).fill("❔"));save()}};
-</script>
-</body>
-</html>
+const S=['🍒','🍋','🔔','💎','7️⃣'];let st=JSON.parse(localStorage.getItem('luckiState')||'null');
+function save(){localStorage.setItem('luckiState',JSON.stringify(st))}function showLogin(){loginBox.style.display='block';registerBox.style.display='none';loginTab.classList.add('active');registerTab.classList.remove('active')}function showRegister(){loginBox.style.display='none';registerBox.style.display='block';loginTab.classList.remove('active');registerTab.classList.add('active')}
+function say(e,t){e.textContent=t;e.style.display='block'}function register(){let u=regUser.value.trim(),e=regEmail.value.trim(),p=regPass.value,p2=regPass2.value;if(!u||!e||!p)return say(regMsg,'Lengkapi semua data.');if(p.length<6)return say(regMsg,'Password minimal 6 karakter.');if(p!==p2)return say(regMsg,'Konfirmasi password tidak sama.');st={user:u,email:e,password:p,coins:10000,bonus:''};save();say(regMsg,'Pendaftaran berhasil. Silakan login.');setTimeout(showLogin,700)}
+function login(){if(!st)return say(loginMsg,'Belum ada akun. Silakan daftar.');if(loginUser.value.trim()!=st.user||loginPass.value!=st.password)return say(loginMsg,'Username atau password salah.');openGame()}
+function openGame(){auth.style.display='none';game.style.display='block';welcome.textContent='Halo, '+st.user+' 👋';coins.textContent=st.coins;draw()}function draw(){reels.innerHTML='';for(let i=0;i<15;i++){let d=document.createElement('div');d.className='reel';d.textContent='❓';reels.appendChild(d)}}function spin(){if(st.coins<100)return say(gameMsg,'Koin tidak cukup.');st.coins-=100;let r=Array.from({length:5},()=>S[Math.floor(Math.random()*S.length)]);document.querySelectorAll('.reel').forEach((x,i)=>x.textContent=r[i%5]);if(r.every(x=>x===r[0])){st.coins+=500;say(gameMsg,'🎉 Cocok! +500 koin virtual.')}else say(gameMsg,'Spin selesai. Koin virtual saja.');coins.textContent=st.coins;save()}function bonus(){let d=new Date().toISOString().slice(0,10);if(st.bonus===d)return say(gameMsg,'Bonus harian sudah diambil.');st.bonus=d;st.coins+=500;coins.textContent=st.coins;save();say(gameMsg,'🎁 Bonus harian +500 koin virtual!')}function logout(){game.style.display='none';auth.style.display='block';showLogin()}
+</script></body></html>
